@@ -1,0 +1,69 @@
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
+
+#define SEALEVELPRESSURE_HPA (1013.25)
+
+Adafruit_BME280 bme;
+
+
+#define TRIGGER_PIN 12
+#define ECHO_PIN 14
+#define ALARME_PIN 27
+
+#define LIMIAR_ENCHENTE_CM 20
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(ALARME_PIN, OUTPUT);
+  digitalWrite(ALARME_PIN, LOW);
+  pinMode(TRIGGER_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+
+  if (!bme.begin(0x76)) {
+    Serial.println("Erro ao iniciar BME280!");
+    while (1);
+  }
+
+  Serial.println("Sistema iniciado.");
+}
+
+void loop() {
+  Serial.println("----- Leitura -----");
+
+  float temp = bme.readTemperature();
+  float hum = bme.readHumidity();
+  float pressao = bme.readPressure() / 100.0F;
+
+  Serial.printf("Temperatura: %.2f °C\n", temp);
+  Serial.printf("Umidade: %.2f %%\n", hum);
+  Serial.printf("Pressão: %.2f hPa\n", pressao);
+
+  if (hum > 85 && pressao < 1005) {
+    Serial.println("⚠️ Alta chance de chuva forte!");
+  } else {
+    Serial.println("Clima estável.");
+  }
+
+  long duracao, distancia_cm;
+
+  digitalWrite(TRIGGER_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIGGER_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIGGER_PIN, LOW);
+
+  duracao = pulseIn(ECHO_PIN, HIGH, 25000);
+  distancia_cm = duracao * 0.034 / 2;
+
+  Serial.printf("Distância até superfície da água: %ld cm\n", distancia_cm);
+
+  if (distancia_cm < LIMIAR_ENCHENTE_CM && distancia_cm > 0) {
+    Serial.println("🚨 RISCO DE ENCHENTE! Nível da água CRÍTICO!");
+    digitalWrite(ALARME_PIN, HIGH);
+  } else {
+    digitalWrite(ALARME_PIN, LOW);
+  }
+
+  delay(5000);
+}
