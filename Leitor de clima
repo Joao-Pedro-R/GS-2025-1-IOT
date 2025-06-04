@@ -1,24 +1,72 @@
+#include <WiFi.h>
+#include <PubSubClient.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 
-#define SEALEVELPRESSURE_HPA (1013.25)
+// --- Configurações Wi-Fi ---
+const char* ssid = "SUA_REDE_WIFI";
+const char* password = "SUA_SENHA_WIFI";
 
+// --- Configurações MQTT ---
+const char* mqtt_server = "BROKER_MQTT"; // Ex: test.mosquitto.org ou IP local
+const int mqtt_port = 1883;
+const char* mqtt_user = "";     // Deixe em branco se não precisar
+const char* mqtt_pass = "";     // Deixe em branco se não precisar
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+// --- BME280 ---
 Adafruit_BME280 bme;
 
-
+// --- Pinos ---
 #define TRIGGER_PIN 12
 #define ECHO_PIN 14
+#define MQ2_PIN 35
 #define ALARME_PIN 27
 
+// --- Parâmetros ---
 #define LIMIAR_ENCHENTE_CM 20
+#define LIMIAR_MQ2 1800
+
+// --- Funções Wi-Fi e MQTT ---
+void conectarWiFi() {
+  Serial.print("Conectando-se ao Wi-Fi");
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\n✅ Wi-Fi conectado");
+  Serial.print("IP: ");
+  Serial.println(WiFi.localIP());
+}
+
+void conectarMQTT() {
+  while (!client.connected()) {
+    Serial.print("Conectando ao MQTT...");
+    if (client.connect("ESP32Estacao", mqtt_user, mqtt_pass)) {
+      Serial.println("conectado!");
+    } else {
+      Serial.print("falhou, rc=");
+      Serial.print(client.state());
+      Serial.println(" tentando novamente em 5 segundos");
+      delay(5000);
+    }
+  }
+}
 
 void setup() {
   Serial.begin(115200);
+
   pinMode(ALARME_PIN, OUTPUT);
   digitalWrite(ALARME_PIN, LOW);
   pinMode(TRIGGER_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
+
+  conectarWiFi();
+  client.setServer(mqtt_server, mqtt_port);
 
   if (!bme.begin(0x76)) {
     Serial.println("Erro ao iniciar BME280!");
@@ -29,41 +77,56 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("----- Leitura -----");
+  if (!client.connected()) {
+    conectarMQTT();
+  }
+  client.loop();
 
+  bool risco = false;
+
+  // --- BME280 ---
   float temp = bme.readTemperature();
   float hum = bme.readHumidity();
   float pressao = bme.readPressure() / 100.0F;
 
-  Serial.printf("Temperatura: %.2f °C\n", temp);
-  Serial.printf("Umidade: %.2f %%\n", hum);
-  Serial.printf("Pressão: %.2f hPa\n", pressao);
-
   if (hum > 85 && pressao < 1005) {
-    Serial.println("⚠️ Alta chance de chuva forte!");
-  } else {
-    Serial.println("Clima estável.");
+    risco = true;
+    client.publish("estacao/chuva", "⚠️ Alta chance de chuva forte!");
   }
 
-  long duracao, distancia_cm;
-
+  // --- Nível da água ---
   digitalWrite(TRIGGER_PIN, LOW);
   delayMicroseconds(2);
   digitalWrite(TRIGGER_PIN, HIGH);
   delayMicroseconds(10);
   digitalWrite(TRIGGER_PIN, LOW);
+  long duracao = pulseIn(ECHO_PIN, HIGH, 25000);
+  long distancia_cm = duracao * 0.034 / 2;
 
-  duracao = pulseIn(ECHO_PIN, HIGH, 25000);
-  distancia_cm = duracao * 0.034 / 2;
+  if (distancia_cm > 0 && distancia_cm < LIMIAR_ENCHENTE_CM) {
+    risco = true;
+    client.publish("estacao/nivel_agua", "🚨 Nível da água crítico!");
+  }
 
-  Serial.printf("Distância até superfície da água: %ld cm\n", distancia_cm);
+  // --- MQ-2 ---
+  int gasValor = analogRead(MQ2_PIN);
+  if (gasValor > LIMIAR_MQ2) {
+    risco = true;
+    client.publish("estacao/fumaca", "🔥 Fumaça detectada!");
+  }
 
-  if (distancia_cm < LIMIAR_ENCHENTE_CM && distancia_cm > 0) {
-    Serial.println("🚨 RISCO DE ENCHENTE! Nível da água CRÍTICO!");
+  // --- Alarme ---
+  if (risco) {
     digitalWrite(ALARME_PIN, HIGH);
+    client.publish("estacao/alerta", "🚨 Alerta Ativado!");
   } else {
     digitalWrite(ALARME_PIN, LOW);
   }
+
+  // --- Publicação periódica (sem alerta) ---
+  char buffer[100];
+  snprintf(buffer, sizeof(buffer), "T:%.1fC U:%.1f%% P:%.1fhPa G:%dcm MQ2:%d", temp, hum, pressao, (int)distancia_cm, gasValor);
+  client.publish("estacao/dados", buffer);
 
   delay(5000);
 }
