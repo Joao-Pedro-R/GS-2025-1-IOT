@@ -1,30 +1,34 @@
-// ... include libraries
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
 
+// Definições
 #define Addr 0x76
 #define SEALEVELPRESSURE_HPA (1013.25)
-
 #define TRIGGER_PIN 12
 #define ECHO_PIN 14
 #define ALARME_PIN 27
 #define SDA_PIN 21
 #define SCL_PIN 22
-
-#define MQ2_PIN 34               
-#define LIMIAR_MQ2 300           
+#define MQ2_PIN 34
+#define LIMIAR_MQ2 300
 #define LIMIAR_ENCHENTE_CM 20
 
+// Wi-Fi e MQTT
 const char* ssid = "SEU_SSID";
 const char* password = "SUA_SENHA";
 const char* mqtt_server = "broker.hivemq.com";
 
+// Tópicos MQTT
+const char* topico_gas = "esp32/sensores/gas";
+const char* topico_enchente = "esp32/sensores/enchente";
+const char* topico_clima = "esp32/sensores/clima";
+
+// Instâncias
 WiFiClient espClient;
 PubSubClient client(espClient);
-
 Adafruit_BME280 bme;
 
 void connectWiFi() {
@@ -75,17 +79,29 @@ void loop() {
   }
   client.loop();
 
+  // Leitura do sensor de gás (MQ-2)
   int gasValor = analogRead(MQ2_PIN);
   if (gasValor > LIMIAR_MQ2) {
     Serial.println("🚨 GÁS DETECTADO! Valor alto do sensor MQ-2!");
+    client.publish(topico_gas, "GAS DETECTADO");
+  } else {
+    client.publish(topico_gas, "Nivel normal");
   }
 
+  // Leitura do BME280
   float temp = bme.readTemperature();
   float hum = bme.readHumidity();
   float pressao = bme.readPressure() / 100.0F;
 
   Serial.printf("Temp: %.2f °C | Umidade: %.2f %% | Pressão: %.2f hPa\n", temp, hum, pressao);
 
+  char payload_clima[100];
+  snprintf(payload_clima, sizeof(payload_clima),
+           "Temp: %.2f, Umid: %.2f, Press: %.2f",
+           temp, hum, pressao);
+  client.publish(topico_clima, payload_clima);
+
+  // Leitura do sensor ultrassônico (nível da água)
   long duracao, distancia_cm;
   digitalWrite(TRIGGER_PIN, LOW);
   delayMicroseconds(2);
@@ -101,8 +117,10 @@ void loop() {
   if (distancia_cm > 0 && distancia_cm < LIMIAR_ENCHENTE_CM) {
     Serial.println("🚨 RISCO DE ENCHENTE!");
     digitalWrite(ALARME_PIN, HIGH);
+    client.publish(topico_enchente, "RISCO DE ENCHENTE");
   } else {
     digitalWrite(ALARME_PIN, LOW);
+    client.publish(topico_enchente, "Nivel normal");
   }
 
   delay(5000);
