@@ -79,29 +79,12 @@ void loop() {
   }
   client.loop();
 
-  // Leitura do sensor de gás (MQ-2)
   int gasValor = analogRead(MQ2_PIN);
-  if (gasValor > LIMIAR_MQ2) {
-    Serial.println("🚨 GÁS DETECTADO! Valor alto do sensor MQ-2!");
-    client.publish(topico_gas, "GAS DETECTADO");
-  } else {
-    client.publish(topico_gas, "Nivel normal");
-  }
 
-  // Leitura do BME280
   float temp = bme.readTemperature();
   float hum = bme.readHumidity();
   float pressao = bme.readPressure() / 100.0F;
 
-  Serial.printf("Temp: %.2f °C | Umidade: %.2f %% | Pressão: %.2f hPa\n", temp, hum, pressao);
-
-  char payload_clima[100];
-  snprintf(payload_clima, sizeof(payload_clima),
-           "Temp: %.2f, Umid: %.2f, Press: %.2f",
-           temp, hum, pressao);
-  client.publish(topico_clima, payload_clima);
-
-  // Leitura do sensor ultrassônico (nível da água)
   long duracao, distancia_cm;
   digitalWrite(TRIGGER_PIN, LOW);
   delayMicroseconds(2);
@@ -112,16 +95,21 @@ void loop() {
   duracao = pulseIn(ECHO_PIN, HIGH, 25000);
   distancia_cm = duracao * 0.034 / 2;
 
-  Serial.printf("Distância da água: %ld cm\n", distancia_cm);
-
   if (distancia_cm > 0 && distancia_cm < LIMIAR_ENCHENTE_CM) {
-    Serial.println("🚨 RISCO DE ENCHENTE!");
     digitalWrite(ALARME_PIN, HIGH);
-    client.publish(topico_enchente, "RISCO DE ENCHENTE");
   } else {
     digitalWrite(ALARME_PIN, LOW);
-    client.publish(topico_enchente, "Nivel normal");
   }
+
+  // Monta a string no formato que o Node-RED espera
+  char payload[128];
+  snprintf(payload, sizeof(payload),
+           "Temp:%.2f Umid:%.2f Press:%.2f Niv:%ld MQ2:%d",
+           temp, hum, pressao, distancia_cm, gasValor);
+
+  client.publish("estacao/dados", payload);
+
+  Serial.println(payload);  // Para debug
 
   delay(5000);
 }
