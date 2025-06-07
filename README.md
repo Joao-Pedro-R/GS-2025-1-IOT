@@ -22,6 +22,13 @@ O projeto visa a criar um detector de chuvas fortes, enchentes, incêndios, entr
 |Buzzer ou LED	                              | Alarme local                              |
 |MQ2                                          | Detecção de fumaças e gases               |
 |Conexão Wi-Fi                	              | Para enviar alertas remotos               |
+
+### 🧠 Pinos usados (modificáveis):
+Função	Pino ESP32
+BME280 (I2C)	SDA = 21, SCL = 22
+Trigger Ultrassônico	GPIO 12
+Echo Ultrassônico	GPIO 14
+Buzzer / LED de alarme	GPIO 27
 ![image](https://github.com/user-attachments/assets/b1dd16ac-f042-40a5-8020-94d19f46e7d6)
 
 ![image](https://github.com/user-attachments/assets/533cbaa6-841b-4fe0-a9eb-21ed49b0098e)
@@ -50,14 +57,6 @@ Com:
 Sensor de nível d’água (ultrassônico ou boia de nível)
 
 Medição contínua da altura da água
-
-🧰 Componentes sugeridos
-Componente	Função
-ESP32	Microcontrolador Wi-Fi
-BME280	Medição de pressão, temperatura, umidade
-Sensor ultrassônico HC-SR04 (ou JSN-SR04T)	Nível da água (distância até a superfície)
-Buzzer ou LED	Alarme local
-Conexão Wi-Fi (opcional)	Para enviar alertas remotos
 
 📋 Esquema geral do projeto
 ESP32 conectado a:
@@ -100,12 +99,7 @@ Mede distância até a superfície da água
 
 Aciona buzzer ou LED se água subir acima do nível crítico
 
-🧠 Pinos usados (modificáveis):
-Função	Pino ESP32
-BME280 (I2C)	SDA = 21, SCL = 22
-Trigger Ultrassônico	GPIO 12
-Echo Ultrassônico	GPIO 14
-Buzzer / LED de alarme	GPIO 27
+
 
 ✅ Vantagens de incluir o MQ-2 no projeto
 Complementa o sistema de alarme:
