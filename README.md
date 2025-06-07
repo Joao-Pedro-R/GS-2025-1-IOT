@@ -2,9 +2,28 @@
 
 ## Link do projeto no wokwi: https://wokwi.com/projects/432784932341371905
 
+## 👨‍💻 Integrantes do Grupo
+| Nome           | RM        |
+|----------------|-----------|
+| Daniel Akiyama | RM 558263 |
+| Danilo Correia | RM 557540 |
+| João Pedro R   | RM 558199 |
+
+## 💻 Conceito
+O projeto visa a criar um detector de chuvas fortes, enchentes, incêndios, entre outros desastres através de sensores que enviam os dados a um dashboard e avisa pessoas em volta com um buzzer que serve como alarme.
+
+## 🏗️ Estrutura do projeto
+### 🧰 Componentes sugeridos
+Componente	Função
+ESP32	Microcontrolador Wi-Fi
+BME280	Medição de pressão, temperatura, umidade
+
+Sensor ultrassônico HC-SR04 (ou JSN-SR04T)	Nível da água (distância até a superfície)
+Buzzer ou LED	Alarme local
+Conexão Wi-Fi (opcional)	Para enviar alertas remotos
 ![image](https://github.com/user-attachments/assets/b1dd16ac-f042-40a5-8020-94d19f46e7d6)
 
-![image](https://github.com/user-attachments/assets/f83d07a8-f4d9-4efe-8f68-e86dcc063731)
+![image](https://github.com/user-attachments/assets/533cbaa6-841b-4fe0-a9eb-21ed49b0098e)
 
 ![image](https://github.com/user-attachments/assets/8e2f2239-7c7f-4719-97db-4c92750e65a7)
 
