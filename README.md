@@ -54,18 +54,13 @@ Temperatura entre 18–30 °C →
 Sensor ultrassônico mede nível da água (altura < X cm) →
 Se abaixo do limite → disparar alarme
 
-✅ Funções do sistema
-📈 Previsão de chuva com BME280:
+### ✅ Funções do sistema
+#### 📈 Previsão de chuva com BME280:
+Mede pressão, umidade e temperatura, alerta se houver alta probabilidade de chuva
 
-Mede pressão, umidade e temperatura
+#### 🌊 Detecção de enchente com sensor ultrassônico (HC-SR04 ou JSN-SR04T):
+Mede distância até a superfície da água, aciona buzzer ou LED se água subir acima do nível crítico
 
-Alerta se houver alta probabilidade de chuva
---
-🌊 Detecção de enchente com sensor ultrassônico (HC-SR04 ou JSN-SR04T):
-
-Mede distância até a superfície da água
-
-Aciona buzzer ou LED se água subir acima do nível crítico
 ![image](https://github.com/user-attachments/assets/b1dd16ac-f042-40a5-8020-94d19f46e7d6)
 
 ![image](https://github.com/user-attachments/assets/8e2f2239-7c7f-4719-97db-4c92750e65a7)
