@@ -1,7 +1,6 @@
 # GS-2025-1-IOT
-Código para o projeto de esp32 em c++
 
-https://wokwi.com/projects/432784932341371905
+## Link do projeto no wokwi: https://wokwi.com/projects/432784932341371905
 
 ![image](https://github.com/user-attachments/assets/b1dd16ac-f042-40a5-8020-94d19f46e7d6)
 
