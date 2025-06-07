@@ -43,6 +43,7 @@ O projeto visa a criar um detector de chuvas fortes, enchentes, incêndios, entr
 | `PubSubClient`    | For connecting to and publishing/subscribing with an MQTT broker |
 
 ### 🔁 Fluxo resumido do projeto:
+
 Previsão de chuva →
 Detectar queda súbita na pressão →
 Umidade > 85% →
