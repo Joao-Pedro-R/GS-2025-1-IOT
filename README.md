@@ -30,13 +30,8 @@ O projeto visa a criar um detector de chuvas fortes, enchentes, incêndios, entr
 |Trigger Ultrassônico	  |GPIO 12           |
 |Echo Ultrassônico	    |GPIO 14           |
 |Buzzer / LED de alarme	|GPIO 27           |
-![image](https://github.com/user-attachments/assets/b1dd16ac-f042-40a5-8020-94d19f46e7d6)
 
-![image](https://github.com/user-attachments/assets/533cbaa6-841b-4fe0-a9eb-21ed49b0098e)
-
-![image](https://github.com/user-attachments/assets/8e2f2239-7c7f-4719-97db-4c92750e65a7)
-
-
+### 📚 Bibliotecas
 | Library Name      | Purpose                                                          |
 | ----------------- | ---------------------------------------------------------------- |
 | `Wire`            | I2C communication (built-in, used for BME280 sensor)             |
@@ -44,6 +39,12 @@ O projeto visa a criar um detector de chuvas fortes, enchentes, incêndios, entr
 | `Adafruit_BME280` | For reading temperature, humidity, and pressure from BME280      |
 | `WiFi`            | To connect the ESP32 to a Wi-Fi network                          |
 | `PubSubClient`    | For connecting to and publishing/subscribing with an MQTT broker |
+
+![image](https://github.com/user-attachments/assets/b1dd16ac-f042-40a5-8020-94d19f46e7d6)
+
+![image](https://github.com/user-attachments/assets/533cbaa6-841b-4fe0-a9eb-21ed49b0098e)
+
+![image](https://github.com/user-attachments/assets/8e2f2239-7c7f-4719-97db-4c92750e65a7)
 
 🌦️ 1. Previsão de chuvas fortes
 Com base em:
