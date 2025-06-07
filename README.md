@@ -44,13 +44,13 @@ O projeto visa a criar um detector de chuvas fortes, enchentes, incêndios, entr
 
 ### 🔁 Fluxo resumido do projeto:
 
-Previsão de chuva →
+#### Previsão de chuva →
 Detectar queda súbita na pressão →
 Umidade > 85% →
 Temperatura entre 18–30 °C →
 → Mostrar “Alta chance de chuva”
-------------------------------------------------------------
-Alerta de enchente →
+
+#### Alerta de enchente →
 Sensor ultrassônico mede nível da água (altura < X cm) →
 Se abaixo do limite → disparar alarme
 
