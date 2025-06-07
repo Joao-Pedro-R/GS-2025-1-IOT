@@ -24,11 +24,12 @@ O projeto visa a criar um detector de chuvas fortes, enchentes, incêndios, entr
 |Conexão Wi-Fi                	              | Para enviar alertas remotos               |
 
 ### 🧠 Pinos usados (modificáveis):
-Função	Pino ESP32
-BME280 (I2C)	SDA = 21, SCL = 22
-Trigger Ultrassônico	GPIO 12
-Echo Ultrassônico	GPIO 14
-Buzzer / LED de alarme	GPIO 27
+|Função	                |Pino ESP32        |
+|-----------------------|------------------|
+|BME280 (I2C)	          |SDA = 21, SCL = 22|
+|Trigger Ultrassônico	  |GPIO 12           |
+|Echo Ultrassônico	    |GPIO 14           |
+|Buzzer / LED de alarme	|GPIO 27           |
 ![image](https://github.com/user-attachments/assets/b1dd16ac-f042-40a5-8020-94d19f46e7d6)
 
 ![image](https://github.com/user-attachments/assets/533cbaa6-841b-4fe0-a9eb-21ed49b0098e)
