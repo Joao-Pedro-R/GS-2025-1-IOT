@@ -34,13 +34,13 @@ O projeto visa a criar um detector de chuvas fortes, enchentes, incêndios, entr
 ![image](https://github.com/user-attachments/assets/533cbaa6-841b-4fe0-a9eb-21ed49b0098e)
 
 ### 📚 Bibliotecas
-| Library Name      | Purpose                                                          |
-| ----------------- | ---------------------------------------------------------------- |
-| `Wire`            | I2C communication (built-in, used for BME280 sensor)             |
-| `Adafruit_Sensor` | Adafruit’s unified sensor interface (required for BME280)        |
-| `Adafruit_BME280` | For reading temperature, humidity, and pressure from BME280      |
-| `WiFi`            | To connect the ESP32 to a Wi-Fi network                          |
-| `PubSubClient`    | For connecting to and publishing/subscribing with an MQTT broker |
+| Nome da biblioteca| Propósito                                                                     |
+| ----------------- | ------------------------------------------------------------------------------|
+| `Wire`            | Comunicação I2C (embutido, usado pelo sensor BME280)                          |
+| `Adafruit_Sensor` | Interface do sensor unificado da Adafruit (necessário para o BME280)          |
+| `Adafruit_BME280` | Para ler a temperatura, humidade e pressão atmosferica através do BME280      | 
+| `WiFi`            | Para conectar o esp32 a internet                                              |
+| `PubSubClient`    | Para fazer a conexão do esp32 a um protocolo MQTT                             |
 
 ### 🔁 Fluxo resumido do projeto:
 
