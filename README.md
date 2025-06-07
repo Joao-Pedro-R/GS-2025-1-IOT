@@ -31,6 +31,8 @@ O projeto visa a criar um detector de chuvas fortes, enchentes, incêndios, entr
 |Echo Ultrassônico	    |GPIO 14           |
 |Buzzer / LED de alarme	|GPIO 27           |
 
+![image](https://github.com/user-attachments/assets/533cbaa6-841b-4fe0-a9eb-21ed49b0098e)
+
 ### 📚 Bibliotecas
 | Library Name      | Purpose                                                          |
 | ----------------- | ---------------------------------------------------------------- |
@@ -41,8 +43,6 @@ O projeto visa a criar um detector de chuvas fortes, enchentes, incêndios, entr
 | `PubSubClient`    | For connecting to and publishing/subscribing with an MQTT broker |
 
 ![image](https://github.com/user-attachments/assets/b1dd16ac-f042-40a5-8020-94d19f46e7d6)
-
-![image](https://github.com/user-attachments/assets/533cbaa6-841b-4fe0-a9eb-21ed49b0098e)
 
 ![image](https://github.com/user-attachments/assets/8e2f2239-7c7f-4719-97db-4c92750e65a7)
 
