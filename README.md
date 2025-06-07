@@ -77,8 +77,8 @@ Mede distância até a superfície da água, aciona buzzer ou LED se água subir
 
 |Tópico                  |	Mensagem                                       |
 |------------------------|-------------------------------------------------|
-|esp32/sensores/gas      |	"GAS DETECTADO" ou "Nivel normal"              |
-|esp32/sensores/enchente |	"RISCO DE ENCHENTE" ou "Nivel normal"          |
+|esp32/sensores/gas      |	`GAS DETECTADO` ou `Nivel normal`              |
+|esp32/sensores/enchente |	`RISCO DE ENCHENTE` ou `Nivel normal`          |
 |esp32/sensores/clima    |	Ex: "Temp:24.87 Umid:48.22 Press:1010.12 Niv:17 MQ2:351" |
 
 ![image](https://github.com/user-attachments/assets/b1dd16ac-f042-40a5-8020-94d19f46e7d6)
