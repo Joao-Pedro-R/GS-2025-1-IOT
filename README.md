@@ -61,10 +61,6 @@ Mede pressão, umidade e temperatura, alerta se houver alta probabilidade de chu
 #### 🌊 Detecção de enchente com sensor ultrassônico (HC-SR04 ou JSN-SR04T):
 Mede distância até a superfície da água, aciona buzzer ou LED se água subir acima do nível crítico
 
-![image](https://github.com/user-attachments/assets/b1dd16ac-f042-40a5-8020-94d19f46e7d6)
-
-![image](https://github.com/user-attachments/assets/8e2f2239-7c7f-4719-97db-4c92750e65a7)
-
 ## ✅ Vantagens de incluir o MQ-2 no projeto
 - Complementa o sistema de alarme
 - Detecta fumaça de incêndios florestais ou urbanos
@@ -83,5 +79,8 @@ Mede distância até a superfície da água, aciona buzzer ou LED se água subir
 |------------------------|-------------------------------------------------|
 |esp32/sensores/gas      |	"GAS DETECTADO" ou "Nivel normal"              |
 |esp32/sensores/enchente |	"RISCO DE ENCHENTE" ou "Nivel normal"          |
-|esp32/sensores/clima    |	Ex: "Temp: 25.12, Umid: 64.50, Press: 1012.10", "Temp:24.87 Umid:48.22 Press:1010.12 Niv:17 MQ2:351" |
+|esp32/sensores/clima    |	Ex: "Temp:24.87 Umid:48.22 Press:1010.12 Niv:17 MQ2:351" |
 
+![image](https://github.com/user-attachments/assets/b1dd16ac-f042-40a5-8020-94d19f46e7d6)
+
+![image](https://github.com/user-attachments/assets/8e2f2239-7c7f-4719-97db-4c92750e65a7)
