@@ -18,7 +18,7 @@ O projeto visa a criar um detector de chuvas fortes, enchentes, incêndios, entr
 |---------------------------------------------|-------------------------------------------|
 |ESP32                                        | Microcontrolador Wi-Fi                    |
 |BME280	                                      | Medição de pressão, temperatura, umidade  |
-|Sensor ultrassônico HC-SR04 (ou JSN-SR04T)	  | Nível da água (distância até a superfície)|
+|Sensor ultrassônico HC-SR04               	  | Nível da água (distância até a superfície)|
 |Buzzer ou LED	                              | Alarme local                              |
 |MQ2                                          | Detecção de fumaças e gases               |
 |Conexão Wi-Fi                	              | Para enviar alertas remotos               |
